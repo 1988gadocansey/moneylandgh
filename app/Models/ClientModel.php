@@ -14,8 +14,10 @@ class ClientModel extends Model
      * @var string
      */
     protected $table = 'clients';
-
+    protected $guarded = ['id'];
     protected $primaryKey="id";
-
+    public function userDetails(){
+        return $this->belongsTo('App\User', "user_id","id");
+    }
 
 }

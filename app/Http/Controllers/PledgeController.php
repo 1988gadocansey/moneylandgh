@@ -8,7 +8,7 @@ use App\Models;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-class ClientController  extends Controller
+class PledgeController  extends Controller
 {
     public function __construct()
     {
@@ -16,7 +16,11 @@ class ClientController  extends Controller
 
 
     }
-
+    public function index(Request $request, SystemController $sys){
+        $data=Models\PledgeModel::where("pledge_maker_id",@\Auth::user()->id)->get();
+        return view("pledges.index")
+            ->with("data",$data);
+    }
     public function showProfileForm(Request $request, SystemController $sys)
     {
 
@@ -93,5 +97,8 @@ class ClientController  extends Controller
         }
     }
 
+    public function destroy(Request $request){
+
+    }
 
 }

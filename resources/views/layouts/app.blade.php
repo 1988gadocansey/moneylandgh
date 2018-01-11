@@ -6,8 +6,10 @@ Designed by Gad Ocansey <gadocansey@gmail.com> +233243348522
 <head>
     <meta charset="UTF-8" />
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="_token" content="{!! csrf_token() !!}"/>
     <title>Client Portal | MoneylendGh </title>
 
+    <link rel="stylesheet" href="{{ url('public/assets/css/semantic.min.css') }}">
     <link rel="stylesheet" href="{{ url('public/assets/css/style.css') }}">
 
 
@@ -27,7 +29,7 @@ Designed by Gad Ocansey <gadocansey@gmail.com> +233243348522
     @yield('style')
 </head>
 
-<body id="{% block body_id %}{% endblock %}" class="pushable">
+<body id=" " class="pushable">
 <div class="pusher">
     <div id="menu" class="ui large sticky inverted stackable menu">
 
@@ -77,10 +79,15 @@ Designed by Gad Ocansey <gadocansey@gmail.com> +233243348522
 
                 <a href="{{ url('/home') }}" class="item">Home</a>
 
+                @if(Auth::user()->confirmed==1)
+                    <a href="#" class="item">Notifications</a>
+                    <a href="#" class="item">Matches</a>
 
-                <a href="#" class="item">Transactions</a>
+                    <a href="{{url('/client/pledges')}}" class="item">Make Pledge</a>
+                    <a href="{{url('/client/pledges')}}" class="item">Transactions</a>
+                @endif
                 <a href="{{url('/profile/form')}}" class="item">Profile Update</a>
-                <a href="#" class="item">Last access {{ Auth::user()->last_sign_in }}</a>
+                <a href="#" class="item">Last access {{   Carbon\Carbon::parse(Auth::user()->last_sign_in)->diffForHumans() }}</a>
 
 
 
@@ -143,76 +150,28 @@ Designed by Gad Ocansey <gadocansey@gmail.com> +233243348522
 
 
 </script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+{{--<script src="{{   url('public/assets/js/jquery.min.js')}}"></script>--}}
 <script src="{{   url('public/assets/js/vue.min.js') }}"> </script>
+<script src="{{   url('public/assets/js/semantic.min.js') }}"> </script>
 <script src="{{   url('public/assets/js/vue-form.min.js')}}"> </script>
-<script>
+<script src="{{   url('public/assets/js/detect.min.js')}}"></script>
 
-    $(document).ready(function () {
-        var brand = document.getElementById('logo-id');
-        brand.className = 'attachment_upload';
-        brand.onchange = function () {
-            document.getElementById('fakeUploadLogo').value = this.value.substring(12);
-        };
-
-        // Source: http://stackoverflow.com/a/4459419/6396981
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    $('.img-preview').attr('src', e.target.result);
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        $("#logo-id").change(function () {
-            readURL(this);
-        });
-    });
+<script src="{{   url('public/assets/js/clipboard.min.js')}}"></script>
+<script src="{{   url('public/assets/js/cookie.min.js')}}"></script>
+<script src="{{   url('public/assets/js/easing.min.js')}}"></script>
+<script src="{{   url('public/assets/js/highlight.min.js')}}"></script>
+<script src="{{   url('public/assets/js/history.min.js')}}"></script>
+<script src="{{   url('public/assets/js/tablesort.min.js')}}"></script>
 
 
-    //code for ensuring vuejs can work with select2 select boxes
-    Vue.directive('select', {
-        twoWay: true,
-        priority: 1000,
-        params: [ 'options'],
-        bind: function () {
-            var self = this
-            $(this.el)
-                .select2({
-                    data: this.params.options,
-                    width: "resolve"
-                })
-                .on('change', function () {
-                    self.vm.$set(this.name,this.value)
-                    Vue.set(self.vm.$data,this.name,this.value)
-                })
-        },
-        update: function (newValue,oldValue) {
-            $(this.el).val(newValue).trigger('change')
-        },
-        unbind: function () {
-            $(this.el).off().select2('destroy')
-        }
-    })
 
 
-    var vm = new Vue({
-        el: "body",
-        ready : function() {
-        },
-        data : {
 
 
-            options: [    ]
-
-        },
-
-    })
-
-</script>
+<script type="text/javascript">
+    $.ajaxSetup({
+        headers: { 'X-CSRF-Token' : $('meta[name=_token]').attr('content') }
+    });    </script>
 
 @yield('js')
 

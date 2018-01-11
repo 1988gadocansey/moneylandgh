@@ -30,12 +30,13 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('logout', ['as' => 'logout', 'uses' => 'Auth\LoginController@logout']);
     Route::get('/dashboard', 'HomeController@index');
     Route::get('/home', 'HomeController@index');
-    Route::get('/biodataUpdate', 'StudentController@biodataUpdate');
-    Route::post('/biodataUpdate', 'StudentController@biodataSave');
 
     Route::get('/profile/form', 'ClientController@showProfileForm');
-    Route::post('/profile/send', 'ClientController@profile');
 
+    Route::post('profile_send', 'ClientController@profileUpdate');
+
+    Route::get('/client/pledges', 'PledgeController@index');
+    Route::delete('/pledge_delete', 'PledgeController@destroy');
 
 
 
