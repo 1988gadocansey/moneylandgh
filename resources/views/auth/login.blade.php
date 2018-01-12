@@ -10,7 +10,7 @@
     <!-- <link rel="shortcut icon" href="assets/ico/favicon.png"> -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>MoneyLendGh</title>
+    <title>MoneyLandGh</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css">
 
     <link rel="stylesheet" id="css-main" href="{!!url('public/css/fontawesome-all.min.css')!!}">
@@ -44,7 +44,7 @@
                                 </div>
                             </div>
                         @endif
-                        <h3>MoneyLendGH</h3>
+                        <h3>MoneyLandGH</h3>
                         <p class="text-muted">Sign In to your account</p>
                         <form class="login-form"  method="POST"  action="{{ url('/login') }}">
                             {!! csrf_field() !!}
@@ -79,7 +79,7 @@
                     </div>
                 </div>
             </div>
-            <center> <footer><small>&copy {{date("Y")}}.All rights reserved - MoneyLendGH | designed by Gad +233243348522</small></footer></center>
+            <center> <footer><small>&copy {{date("Y")}}.All rights reserved - MoneyLandGH | designed by Gad +233243348522</small></footer></center>
         </div>
     </div>
 </div>

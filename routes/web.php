@@ -35,7 +35,10 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::post('profile_send', 'ClientController@profileUpdate');
 
+    Route::get('/client/pledge/new', 'PledgeController@showForm');
+    Route::post('pledge_new', 'PledgeController@store');
     Route::get('/client/pledges', 'PledgeController@index');
+
     Route::delete('/pledge_delete', 'PledgeController@destroy');
 
 

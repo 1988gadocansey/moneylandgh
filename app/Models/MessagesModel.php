@@ -13,7 +13,7 @@ class MessagesModel extends Model
      *
      * @var string
      */
-    protected $table = 'tpoly_sms';
+    protected $table = 'sms_messages';
     
     protected $primaryKey="id";
     protected $guarded = ['id'];

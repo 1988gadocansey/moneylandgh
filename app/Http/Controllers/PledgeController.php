@@ -8,96 +8,77 @@ use App\Models;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-class PledgeController  extends Controller
+
+class PledgeController extends Controller
 {
-    public function __construct()
+    private $sysObject;
+
+    public function __construct(SystemController $sys)
     {
         $this->middleware('auth');
-
+        $this->sysObject = $sys;
 
     }
-    public function index(Request $request, SystemController $sys){
-        $data=Models\PledgeModel::where("pledge_maker_id",@\Auth::user()->id)->get();
+
+    public function index(Request $request, SystemController $sys)
+    {
+        $client = Models\ClientModel::where("user_id", @\Auth::user()->id)->first();
+        $data = Models\PledgeModel::where("pledge_maker_id", $client->id)->get();
+        // dd($data);
         return view("pledges.index")
-            ->with("data",$data);
+            ->with("data", $data);
     }
-    public function showProfileForm(Request $request, SystemController $sys)
+
+    public function showForm(Request $request, SystemController $sys)
     {
 
-        $studentSessionId = @\Auth::user()->id;
+
+        $data = $sys->getClients();
 
 
-
-        // make sure only students who are currently in school can update their data
-        $query = Models\ClientModel::where('user_id', $studentSessionId)->first();
-
-
-        return view('profile.profile')->with('data', $query)
-            ;
+        return view('pledges.create')->with('data', $data);
 
     }
 
-    public function profileUpdate(Request $request){
+    public function store(Request $request)
+    {
 
 
-        $clientCode = @\Auth::user()->id;
-        $fname = $request->fname;
-        $phone = $request->phone;
-        $lname = $request->surname;
-        $othername = $request->othername;
+        $pledger = Models\ClientModel::where("user_id", @\Auth::user()->id)->first();
+        $pledgeReceiver = Models\ClientModel::where("id", $request->receiver)->first();
 
-        $gender = $request->gender;
+        $pname = $pledgeReceiver->firstname;
+        $phone = $pledgeReceiver->phone;
+        $paymentDue = date('jS F, Y');
 
-        $address = $request->address;
-        $month = $request->month;
-        $day = $request->day;
-        $year = $request->year;
+        $amount = $request->amount;
+        $receiver = $request->receiver;
+        $code = rand();
 
-        $email = $request->email;
-        $dateJoined=$year."/".$month."/".$day;
-        $checkQuery = Models\ClientModel::where("user_id", $clientCode)
-            ->first();
-        if (empty($checkQuery)) {
-            $data = new Models\ClientModel();
-            $data->firstname = ucwords($fname);
-            $data->phone = $phone;
-            $data->email = $email;
-            $data->gender=  $gender;
-            $data->date_joined=  $dateJoined;
-            $data->address = ucwords($address);
-            $data->middle_name = ucwords($othername);
-            $data->lastname = ucwords($lname);
-            $data->user_id = ucwords($clientCode);
+        $data = new Models\PledgeModel();
 
-            $sql = $data->save();
-
-        } else {
-            $sql =  Models\ClientModel::where("user_id", $clientCode)
-                ->update(array(
-                    "firstname" => ucwords($fname),
-                    "phone" => $phone,
-                    "email" => ucwords($email),
-                    "address" => ucwords($address),
-                    "gender" => ucwords($gender),
-                    "date_joined" =>  $dateJoined,
-                    "lastname" => ucwords($lname),
-                    "middle_name" => ucwords($othername),
-
-
-                ));
-
-        }
+        $data->pledge_maker_id = $pledger->id;
+        $data->pledged_amount = $amount;
+        $data->pledge_receiver_id = $receiver;
+        $data->transaction_code = $code;
+        $data->status = 0;
+        $sql = $data->save();
+        $message = "Hi, $pname you have been pledged $amount  due on $paymentDue from  $pledger->firstname with phone $pledger->phone";
+        @$this->sysObject->firesms($message, $phone, $pledgeReceiver->id);
         if ($sql) {
 
-            return response()->json(['status' => 'success', 'message' => 'Profile information updated... ']);
+            return response()->json(['status' => 'success', 'message' => 'Pledge created... ']);
 
         } else {
-            return response()->json(['status' => 'error', 'message' => ' Error sending data. try again ']);
+            return response()->json(['status' => 'error', 'message' => ' Error created data. try again ']);
 
         }
     }
 
-    public function destroy(Request $request){
+    public function destroy(Request $request)
+    {
+        Models\PledgeModel::where("id", $request->id)->delete();
+        return redirect("/client/pledges")->with("success", "Record deleted successfully");
 
     }
 

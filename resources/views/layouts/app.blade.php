@@ -8,9 +8,9 @@ Designed by Gad Ocansey <gadocansey@gmail.com> +233243348522
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <meta name="_token" content="{!! csrf_token() !!}"/>
     <title>Client Portal | MoneylendGh </title>
+    <link rel="stylesheet" href="{{ url('public/assets/css/style.css') }}">
 
     <link rel="stylesheet" href="{{ url('public/assets/css/semantic.min.css') }}">
-    <link rel="stylesheet" href="{{ url('public/assets/css/style.css') }}">
 
 
     <link rel="icon" type="image/x-icon" href="{{ url('public/assets/img/logo.png') }}" />
@@ -83,7 +83,7 @@ Designed by Gad Ocansey <gadocansey@gmail.com> +233243348522
                     <a href="#" class="item">Notifications</a>
                     <a href="#" class="item">Matches</a>
 
-                    <a href="{{url('/client/pledges')}}" class="item">Make Pledge</a>
+                    <a href="{{url('/client/pledge/new')}}" class="item">Make Pledge</a>
                     <a href="{{url('/client/pledges')}}" class="item">Transactions</a>
                 @endif
                 <a href="{{url('/profile/form')}}" class="item">Profile Update</a>
@@ -134,23 +134,8 @@ Designed by Gad Ocansey <gadocansey@gmail.com> +233243348522
 
 <script src="{{ asset('public/assets/js/app.js')}}"></script>
 
-<script>
-    $('.ui.modal')
-        .modal('show');
-    $('.ui.dropdown').dropdown();
-    $('#applicant_step_one_dob_year').dropdown();
-    $('#applicant_step_one_dob_month').dropdown();
-    $('#applicant_step_one_dob_day').dropdown();
 
 
-    $('.save').on('click', function () {
-        $('.ui.basic.modal').modal('show');
-    })
-
-
-
-</script>
-{{--<script src="{{   url('public/assets/js/jquery.min.js')}}"></script>--}}
 <script src="{{   url('public/assets/js/vue.min.js') }}"> </script>
 <script src="{{   url('public/assets/js/semantic.min.js') }}"> </script>
 <script src="{{   url('public/assets/js/vue-form.min.js')}}"> </script>
@@ -165,7 +150,22 @@ Designed by Gad Ocansey <gadocansey@gmail.com> +233243348522
 
 
 
+<script>
+    $('.ui.modal')
+        .modal('show');
+    $('.ui.dropdown').dropdown();
+    $('#applicant_step_one_dob_year').dropdown();
+    $('#applicant_step_one_dob_month').dropdown();
+    $('#applicant_step_one_dob_day').dropdown();
 
+
+    $('.save').on('click', function () {
+        $('.ui.basic.modal').modal('show');
+    })
+    $('table').tablesort();
+
+
+</script>
 
 
 <script type="text/javascript">
