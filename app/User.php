@@ -22,4 +22,8 @@ class User extends Authenticatable
         'password', 'remember_token'
     ];
 
+    protected $guarded = ['id'];
+    public function clientDetails(){
+        return $this->hasOne(Models\ClientModel::class);
+    }
 }

@@ -74,13 +74,13 @@
                             <p> Login into the portal to view profile</p>
                             <p> Login into the portal to confirm payment</p>
                             <p> Login into the portal to view upcoming matches</p>
-                            <button type="button" class="btn btn-primary active mt-3">Contact us!</button>
+                            <a href="{{url('/register')}}" class="btn btn-primary active mt-3">Register to join!</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <center> <footer><small>&copy {{date("Y")}}.All rights reserved - MoneyLandGH | designed by Gad +233243348522</small></footer></center>
-        </div>
+              </div>
+
     </div>
 </div>
 

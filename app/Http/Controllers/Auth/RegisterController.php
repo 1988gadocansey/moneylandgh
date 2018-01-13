@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Models;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -48,9 +49,13 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'phone' => 'required|numeric|unique:users',
+            'firstname' => 'required|string|max:255',
+            'gender' => 'required',
+            'address' => 'required',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:7|confirmed',
         ]);
     }
 
@@ -62,10 +67,29 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
+        $name=$data['firstname']." ".$data['lastname'];
+        $user=User::create([
+            'name' => $name,
+
             'email' => $data['email'],
+            'phone' => $data['phone'],
+            'confirmed' => 1,
             'password' => bcrypt($data['password']),
         ]);
+
+
+        $model=new Models\ClientModel();
+        $model->firstname=$data['firstname'];
+        $model->lastname=$data['lastname'];
+        $model->gender=$data['gender'];
+        $model->phone=$data['phone'];
+        $model->address=$data['address'];
+        $model->email=$data['email'];
+        $model->user_id=$user->id;
+        //$model->save();
+        $user->clientDetails()->save($model);
+
+        return $user;
+
     }
 }

@@ -41,6 +41,8 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::delete('/pledge_delete', 'PledgeController@destroy');
 
+    Route::get('/client/matches', 'MatchController@index');
+    Route::get('/match/confirm/{id}/id', 'MatchController@confirmMatch');
 
 
 //

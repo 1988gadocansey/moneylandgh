@@ -27,12 +27,12 @@ class LiaisonController extends Controller
     public function showProfileForm(Request $request, SystemController $sys)
     {
 
-        $studentSessionId = @\Auth::user()->username;
+        $studentSessionId = @\Auth::user()->id;
 
 
 
             // make sure only students who are currently in school can update their data
-            $query = Models\ClientModel::where('code', $studentSessionId)->first();
+            $query = @Models\ClientModel::where('code', $studentSessionId)->first();
 
 
             return view('profile.profile')->with('data', $query)

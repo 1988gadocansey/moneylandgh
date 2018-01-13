@@ -13,7 +13,7 @@ use PhpParser\Node\Expr\AssignOp\Mod;
 
 class HomeController extends Controller
 {
-    
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -44,19 +44,19 @@ class HomeController extends Controller
     /**
      * Display a list of all of the user's task.
      *
-     * @param  Request  $request
+     * @param  Request $request
      * @return Response
      */
     public function index(SystemController $sys)
     {
-        @$user=\Auth::user()->id;
+        @$user = \Auth::user()->id;
 
-        $date=new \Datetime();
-        @User::where("id", $user)->update(array("last_sign_in"=>$date));
-    //$newIndex=$sys->assignIndex(@\Auth::user()->programme);
+        $date = new \Datetime();
+        @User::where("id", $user)->update(array("last_sign_in" => $date));
+        //$newIndex=$sys->assignIndex(@\Auth::user()->programme);
 //dd($newIndex);
-        $lastVisit=\Carbon\Carbon::createFromTimeStamp(strtotime(@\Auth::user()->last_sign_in))->diffForHumans();
-        $student=@\Auth::user()->username;
+        $lastVisit = \Carbon\Carbon::createFromTimeStamp(strtotime(@\Auth::user()->last_sign_in))->diffForHumans();
+        $student = @\Auth::user()->username;
         /*$userModel=User::query()->where('username',$student)->where('active','1')->first();
         $studentUpdate=$userModel->biodata_update;
         $academicDetails=$sys->getSemYear();
@@ -92,39 +92,54 @@ class HomeController extends Controller
 
          }*/
 
+        $client = Models\ClientModel::where("user_id", @\Auth::user()->id)->first();
+        if ($client != "") {
+            $data = Models\PledgeModel::where("pledge_maker_id", $client->id)->where("payment_confirm", "Unconfirmed")->orderBy("created_at", "DESC")->get();
+           // dd($data);
+            $info = 1;
 
-            return view('dashboard')
+            $totalPledge=count($data);
+            $totalMatches=Models\MatchModel::where("confirmed",1)->with('recieverDetails')->count();
+            return view('dashboard')->with("rows", $data)->with("info", $info)
+                ->with("pledgeTotal", $totalPledge)
+                ->with("totalMatches", $totalMatches)
+                ->with('lastVisit', $lastVisit);
 
-                                ->with('lastVisit', $lastVisit)
-                                 ;
-        
-        
+        } else {
+            $info = 0;
+            return view('dashboard')->with("info", $info)
+                ->with('lastVisit', $lastVisit);
 
-        
+        }
+
+
     }
-    public function accountStatement(Request $request, SystemController $sys) {
-        $student=@\Auth::user()->username;
-        
-         
-        $academicDetails=$sys->getSemYear();
-        $sem=$academicDetails[0]->SEMESTER;
-        $year=$academicDetails[0]->YEAR;
-       
-        $studentDetail=Models\StudentModel::query()->where('STATUS','In School')->orwhere('STATUS','Alumni')->orwhere('STATUS','Admitted')->where('INDEXNO',$student)->first();
-        
-         
-        $outstandingBill=@$sys->formatMoney($studentDetail->BILL_OWING);
-        $SemesterBill=@$sys->formatMoney($studentDetail->BILLS);
-          //Payment details
-        $paymentDetail=  Models\FeePaymentModel::query()->where('INDEXNO',$studentDetail->STNO)->orderBy('LEVEL','DESC')->orderBy('YEAR','DESC')->orderBy('SEMESTER','DESC')->get();
+
+    public function accountStatement(Request $request, SystemController $sys)
+    {
+        $student = @\Auth::user()->username;
+
+
+        $academicDetails = $sys->getSemYear();
+        $sem = $academicDetails[0]->SEMESTER;
+        $year = $academicDetails[0]->YEAR;
+
+        $studentDetail = Models\StudentModel::query()->where('STATUS', 'In School')->orwhere('STATUS', 'Alumni')->orwhere('STATUS', 'Admitted')->where('INDEXNO', $student)->first();
+
+
+        $outstandingBill = @$sys->formatMoney($studentDetail->BILL_OWING);
+        $SemesterBill = @$sys->formatMoney($studentDetail->BILLS);
+        //Payment details
+        $paymentDetail = Models\FeePaymentModel::query()->where('INDEXNO', $studentDetail->STNO)->orderBy('LEVEL', 'DESC')->orderBy('YEAR', 'DESC')->orderBy('SEMESTER', 'DESC')->get();
         return view("students.account_statement")->with("transaction", $paymentDetail)
-                ->with('balance', $outstandingBill)
-                ->with('semesterBill', $paymentDetail);
+            ->with('balance', $outstandingBill)
+            ->with('semesterBill', $paymentDetail);
     }
+
     /**
      * Create a new task.
      *
-     * @param  Request  $request
+     * @param  Request $request
      * @return Response
      */
     public function store(Request $request)
@@ -143,8 +158,8 @@ class HomeController extends Controller
     /**
      * Destroy the given task.
      *
-     * @param  Request  $request
-     * @param  Task  $task
+     * @param  Request $request
+     * @param  Task $task
      * @return Response
      */
     public function destroy(Request $request, Task $task)

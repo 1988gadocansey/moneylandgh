@@ -80,13 +80,15 @@ Designed by Gad Ocansey <gadocansey@gmail.com> +233243348522
                 <a href="{{ url('/home') }}" class="item">Home</a>
 
                 @if(Auth::user()->confirmed==1)
-                    <a href="#" class="item">Notifications</a>
-                    <a href="#" class="item">Matches</a>
+                    {{--  <a href="#" class="item">Notifications</a>--}}
+                     <a href="{{url('/client/matches')}}" class="item">Matches</a>
 
-                    <a href="{{url('/client/pledge/new')}}" class="item">Make Pledge</a>
+                    <a href="{{url('/client/pledge/new')}}" class="item">Provide Help</a>
                     <a href="{{url('/client/pledges')}}" class="item">Transactions</a>
+                    {{--<a href="{{url('/profile/form')}}" class="item">Confirm Payments</a>--}}
+                    <a href="{{url('/profile/form')}}" class="item">Profile Update</a>
                 @endif
-                <a href="{{url('/profile/form')}}" class="item">Profile Update</a>
+
                 <a href="#" class="item">Last access {{   Carbon\Carbon::parse(Auth::user()->last_sign_in)->diffForHumans() }}</a>
 
 
@@ -121,7 +123,7 @@ Designed by Gad Ocansey <gadocansey@gmail.com> +233243348522
                 <div class="eight wide column">
 
                     <p>&copy; {{  date('Y') }} MoneyLendGh
-                          | <a href="#" target="_blank" style="color: #1abb9c;"> Powered by Gadeksystem</a></p>
+                           </p>
                 </div>
 
 
