@@ -34,7 +34,7 @@
                 <span class="icon-bar"></span></button>
             <a class="navbar-brand" href="#"><span>MoneyLand</span> Ghana</a>
             <ul class="nav navbar-top-links navbar-right">
-                <li class="dropdown"><a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+              {{--  <li class="dropdown"><a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                         <em class="fa fa-envelope"></em><span class="label label-danger">15</span>
                     </a>
                     <ul class="dropdown-menu dropdown-messages">
@@ -47,7 +47,7 @@
                             </div>
                         </li>
                         <li class="divider"></li>
-                        <li>
+                     {{--   <li>
                             <div class="dropdown-messages-box"><a href="{{ url('/home') }}" class="pull-left">
                                     <img alt="image" class="img-circle" src="//secure.gravatar.com/avatar/7c4ff521986b4ff8d29440beec01972d?size=100&d=mm&r=g">
                                 </a>
@@ -63,7 +63,7 @@
                                 </a></div>
                         </li>
                     </ul>
-                </li>
+                </li>--}}
                 <li class="dropdown"><a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                         <em class="fa fa-bell"></em><span class="label label-info">5</span>
                     </a>
@@ -73,15 +73,7 @@
                                     <span class="pull-right text-muted small">3 mins ago</span></div>
                             </a></li>
                         <li class="divider"></li>
-                        <li><a href="#">
-                                <div><em class="fa fa-heart"></em> 12 New Likes
-                                    <span class="pull-right text-muted small">4 mins ago</span></div>
-                            </a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">
-                                <div><em class="fa fa-user"></em> 5 New Followers
-                                    <span class="pull-right text-muted small">4 mins ago</span></div>
-                            </a></li>
+
                     </ul>
                 </li>
             </ul>
@@ -94,7 +86,7 @@
             <img src="//secure.gravatar.com/avatar/7c4ff521986b4ff8d29440beec01972d?size=100&d=mm&r=g" class="img-responsive" alt="">
         </div>
         <div class="profile-usertitle">
-            <div class="profile-usertitle-name">Welcome {{ @Auth::user()->name }}</div>
+            <div style='font-size:14px'class="profile-usertitle-name">Welcome {{ @Auth::user()->name }} | {{ucwords(@Auth::user()->role) }} </div>
             <div class="profile-usertitle-status"><span class="indicator label-success"></span>Online</div>
         </div>
         <div class="clear"></div>
@@ -106,13 +98,23 @@
         </div>
     </form>
     <ul class="nav menu">
-        @if(Auth::user()->confirmed==1)
+        @if(Auth::user()->confirmed==1 && Auth::user()->role=='user' )
         <li><a href="{{ url('/home') }}"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
-        <li><a href="{{url('/client/matches')}}"><em class="fa fa-tasks">&nbsp;</em> Matches</a></li>
-        <li><a href="{{url('/client/pledge/new')}}"><em class="fa fa-gift">&nbsp;</em> Provide Help</a></li>
+         <li><a href="{{url('/client/pledge/new')}}"><em class="fa fa-gift">&nbsp;</em> Provide Help</a></li>
         <li class="active"><a href="{{url('/client/pledges')}}"><em class="fa fa-database">&nbsp;</em> Transactions</a></li>
-        <li><a href="{{url('/profile/form')}}"><em class="fa fa-user-circle">&nbsp;</em> My Profile</a></li>
-        @endif
+         <li><a href="{{url('/client/matches')}}"><em class="fa fa-tasks">&nbsp;</em>Matches</a></li>
+          @endif
+        @if(Auth::user()->confirmed==1 && Auth::user()->role=='admin')
+        <li><a href="{{ url('/home') }}"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
+        
+         <li class="active"><a href="{{url('/client/pledges')}}"><em class="fa fa-database">&nbsp;</em> View Transactions</a></li>
+      
+        <li><a href="{{url('/client/matches')}}"><em class="fa fa-tasks">&nbsp;</em>My own Matches</a></li>
+        <li><a href="{{url('/client/match')}}"><em class="fa fa-tasks">&nbsp;</em>View Matches</a></li>
+           <li><a href="{{url('/client/match/new')}}"><em class="fa fa-tasks">&nbsp;</em>Match Clients</a></li>
+            @endif
+            <li><a href="{{url('/profile/form')}}"><em class="fa fa-user-circle">&nbsp;</em> My Profile</a></li>
+       
         <li>
             <a class="item" href="{{ url('/logout') }}"
                onclick="event.preventDefault();

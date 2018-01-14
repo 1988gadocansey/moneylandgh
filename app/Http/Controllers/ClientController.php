@@ -56,7 +56,7 @@ class ClientController  extends Controller
         if (empty($checkQuery)) {
             $data = new Models\ClientModel();
             $data->firstname = ucwords($fname);
-            $data->phone = $phone;
+
             $data->email = $email;
             $data->gender=  $gender;
             $data->date_joined=  $dateJoined;
@@ -71,7 +71,7 @@ class ClientController  extends Controller
             $sql =  Models\ClientModel::where("user_id", $clientCode)
                 ->update(array(
                     "firstname" => ucwords($fname),
-                    "phone" => $phone,
+
                     "email" => ucwords($email),
                     "address" => ucwords($address),
                     "gender" => ucwords($gender),

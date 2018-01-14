@@ -22,8 +22,16 @@ class PledgeController extends Controller
 
     public function index(Request $request, SystemController $sys)
     {
+        if(\Auth::user()->role=="user"){
         $client = @Models\ClientModel::where("user_id", @\Auth::user()->id)->first();
         $data = @Models\PledgeModel::where("pledge_maker_id", $client->id)->orWhere("pledge_receiver_id", $client->id)->get();
+       
+        }
+        else{
+             $data = @Models\PledgeModel::get();
+       
+        }
+
         // dd($data);
         return view("pledges.index")
             ->with("data", $data);

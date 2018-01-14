@@ -19,6 +19,9 @@ class MatchModel extends Model
     public function recieverDetails(){
         return $this->belongsTo('App\Models\ClientModel', "client","id");
     }
+    public function pledgerMarker(){
+        return $this->belongsTo('App\Models\PledgeModel', "pledge","id");
+    }
 
 
 }

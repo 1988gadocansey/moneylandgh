@@ -80,8 +80,8 @@
     <script type="text/javascript">
 
         $('#save').click(function (e) {
-            event.preventDefault();
-            $('.ui.basic.modal').modal('show');
+            //event.preventDefault();
+           // $('.ui.basic.modal').modal('show');
             //  alert($("#client").serialize());
 
             $.ajax({

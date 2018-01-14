@@ -85,9 +85,91 @@ class MatchController extends Controller
 
     public function destroy(Request $request)
     {
-        Models\PledgeModel::where("id", $request->id)->delete();
-        return redirect("/client/pledges")->with("success", "Record deleted successfully");
+        Models\MatchModel::where("id", $request->id)->delete();
+        return redirect("client/match")->with("success", "Record deleted successfully");
 
+    }
+    public function  showMatches(){
+        //$client2 = @Models\ClientModel::where("user_id", @\Auth::user()->id)->first();
+       // $client = @Models\PledgeModel::where("pledge_maker_id", $client2->id)->first();
+        $data = @Models\MatchModel::paginate(5);
+        // dd($data);
+        return view("task.matches")
+            ->with("data", $data);
+    }
+    public function showMatchForm(Request $request){
+        $client = @Models\ClientModel::select('id','firstname','lastname','phone')->get();
+        $pledge = @Models\PledgeModel::where("maturity_date",'2018-01-23')->where("payment_confirm","Unconfirmed")
+        ->where("matched",0)->get();
+        // dd($data);
+        return view("task.create")->with("pledge", $pledge)
+            ->with("client", $client);
+    }
+    public function storeMatches(Request $request){
+        $pledger=$request->maker;
+         $receiver=$request->receiver;
+
+         
+          
+           
+          Models\PledgeModel::where("id",$pledger)->update(array("pledge_receiver_id"=>$receiver));
+            
+          $pledgeDetails=Models\PledgeModel::where("id",$pledger)->first();
+          //dd($pledgeDetails);
+
+          $receiverDetails=Models\ClientModel::where("id",$receiver)->first();
+
+          
+          $amount=$pledgeDetails->pledged_amount;
+           $receiverName=$receiverDetails->firstname.' '.$receiverDetails->lastname;
+           $receiverPhone=$receiverDetails->phone;
+         
+
+          $data = new Models\MatchModel();
+
+        $data->pledge = $pledger;
+        $data->amount = $amount;
+        $data->confirmed ="0";
+         
+        $data->client = $receiverDetails->id;
+        $data->receiver_name = $receiverName;
+        $data->mobile_money_no =$receiverPhone;
+        $data->type ="receive";
+        
+        $sql = $data->save();
+        //$message = "Hi, $pname you have been pledged GHC$amount   due on $paymentDue from  $pledger->firstname with phone $pledger->phone due on $dateToPay";
+        //@$this->sysObject->firesms($message, $phone, $pledgeReceiver->id);
+        if ($sql) {
+
+            return response()->json(['status' => 'success', 'message' => 'Match  created... ']);
+
+        } else {
+            return response()->json(['status' => 'error', 'message' => ' Error created data. try again ']);
+
+        }
+
+    }
+
+    public function firesms(Request $request){
+
+        $sql=Models\MatchModel::where("confirmed",0)->get();
+        if(count($sql)>0){
+            foreach ($sql as   $value) {
+                $phone=$value->mobile_money_no;
+                $name=$value->receiver_name;
+
+            $message = "Hi, $name you have been matched goto portal.moneylandgh.com to view details of your match.";
+            @$this->sysObject->firesms($message, $phone, $name);
+           
+                 
+            }
+               return redirect()->back()->with("success","sms sent to matchs successfully");
+     
+             
+        }
+        else{
+            return redirect()->back()->with("error","No Unconfirmed match to send sms to");
+        }
     }
 
 }

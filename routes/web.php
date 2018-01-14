@@ -42,8 +42,16 @@ Route::group(['middleware' => ['web']], function () {
     Route::delete('/pledge_delete', 'PledgeController@destroy');
 
     Route::get('/client/matches', 'MatchController@index');
-    Route::get('/match/confirm/{id}/id', 'MatchController@confirmMatch');
+    Route::get('/client/match', 'MatchController@showMatches');
+    Route::get('/client/match/new', 'MatchController@showMatchForm');
 
+    Route::post('match_create', 'MatchController@storeMatches');
+
+
+    Route::get('/match/confirm/{id}/id', 'MatchController@confirmMatch');
+    Route::delete('/match_delete', 'MatchController@destroy');
+
+    Route::get('match_sms', 'MatchController@firesms');
 
 //
 

@@ -36,13 +36,13 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Matches</h1>
+            <h1 class="page-header">Transactions</h1>
         </div>
     </div><!--/.row-->
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
-                <div class="panel-heading">Matches</div>
+                <div class="panel-heading">All transactions as at {{date('jS F, Y')}}</div>
                 <div class="panel-body">
                     <div class="col-md-12">
                         @if(count($data)>0)
