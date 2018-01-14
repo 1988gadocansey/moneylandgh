@@ -99,7 +99,7 @@ class MatchController extends Controller
     }
     public function showMatchForm(Request $request){
         $client = @Models\ClientModel::select('id','firstname','lastname','phone')->get();
-        $pledge = @Models\PledgeModel::where("maturity_date",'2018-01-23')->where("payment_confirm","Unconfirmed")
+        $pledge = @Models\PledgeModel::where("maturity_date", date('Y-m-d'))->where("payment_confirm","Unconfirmed")
         ->where("matched",0)->get();
         // dd($data);
         return view("task.create")->with("pledge", $pledge)

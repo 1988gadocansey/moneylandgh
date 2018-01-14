@@ -55,7 +55,7 @@ class RegisterController extends Controller
             'mobile_money_name' => 'required|string|unique:clients',
             'firstname' => 'required|string|max:255',
             'gender' => 'required',
-            'address' => 'required',
+
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:7|confirmed',
         ]);

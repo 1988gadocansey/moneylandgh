@@ -245,7 +245,7 @@ class SystemController extends Controller
         $message = urlencode($message);
         $phone = $phone; // because most of the numbers came from excel upload
 
-        $key = "cdaf1d8b873e8dce08a7";
+        $key = "cdaf1d8b873e8dce08a7m";
         //your unique API key;
         //$message = urlencode($message); //encode url;
         $sender_id="MoneyLandGH";

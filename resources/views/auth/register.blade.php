@@ -101,7 +101,7 @@
                             </div>
                             <div class="input-group mb-3">
                                 <span class="input-group-addon"><i class="icon-user"></i></span>
-                                <input type="text" class="form-control" name="address" placeholder="Address"  >
+                                <input type="text" class="form-control" name="address" placeholder="Referral"  >
                             </div>
                         <div class="input-group mb-4">
                             <small><b>Agree to terms</b></small>
