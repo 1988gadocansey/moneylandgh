@@ -77,6 +77,20 @@
                                 <span class="input-group-addon"><i class="icon-user"></i></span>
                                 <input type="text" class="form-control" name="lastname" placeholder="Surname" required>
                             </div>
+
+                            <div class="input-group mb-4">
+                                <span class="input-group-addon"><i class="icon-phone"></i></span>
+                                <input type="text"  name="mobile_money_phone" class="form-control" placeholder="Valid mobile money number" required>
+                            </div>
+
+                            <div class="input-group mb-4">
+                                <span class="input-group-addon"><i class="icon-phone"></i></span>
+                                <input type="text"  name="mobile_money_name" class="form-control" placeholder="Mobile money name" required>
+                            </div>
+
+
+
+
                             <div class="input-group mb-3">
                                 <span class="input-group-addon"><i class="icon-user"></i></span>
                                  <select required="" name="gender" >

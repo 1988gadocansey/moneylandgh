@@ -51,6 +51,8 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'lastname' => 'required|string|max:255',
             'phone' => 'required|numeric|unique:users',
+            'mobile_money_phone' => 'required|numeric|unique:clients',
+            'mobile_money_name' => 'required|string|unique:clients',
             'firstname' => 'required|string|max:255',
             'gender' => 'required',
             'address' => 'required',
@@ -85,6 +87,8 @@ class RegisterController extends Controller
         $model->phone=$data['phone'];
         $model->address=$data['address'];
         $model->email=$data['email'];
+        $model->mobile_money_name=$data['mobile_money_name'];
+        $model->mobile_money_phone=$data['mobile_money_phone'];
         $model->user_id=$user->id;
         //$model->save();
         $user->clientDetails()->save($model);

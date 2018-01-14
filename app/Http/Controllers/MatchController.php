@@ -121,8 +121,8 @@ class MatchController extends Controller
 
           
           $amount=$pledgeDetails->pledged_amount;
-           $receiverName=$receiverDetails->firstname.' '.$receiverDetails->lastname;
-           $receiverPhone=$receiverDetails->phone;
+           $receiverName=$receiverDetails->mobile_money_name;
+           $receiverPhone=$receiverDetails->mobile_money_phone;
          
 
           $data = new Models\MatchModel();
