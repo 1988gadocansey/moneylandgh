@@ -36,28 +36,28 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Transactions</h1>
+            <h1 class="page-header">Clients</h1>
         </div>
     </div><!--/.row-->
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
-                <div class="panel-heading">All transactions as at {{date('jS F, Y')}}</div>
+                <div class="panel-heading">All clients as at {{date('jS F, Y')}}</div>
                 <div class="panel-body">
                     <div class="col-md-12">
                         @if(count($data)>0)
-                            <table class="table table-info">
+                            <table class="table table-hover table-responsive ">
                                 <thead>
                                 <th>No</th>
-                                <th>Transaction Code</th>
-                                <th>Pledge Marker</th>
-                                <th>Date of pledge</th>
-                                <th>Amount Pledged</th>
-                                <th>Payment Maturity</th>
-                                <th>Expected Earnings</th>
+                                <th>Name</th>
 
-                                <th>Status</th>
-
+                                <th>Gender</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Referral</th>
+                                <th>Mobile Money Account Name</th>
+                                <th>Mobile Money Phone No.</th>
+                                <th>Date Joined</th>
 
                                 </thead>
                                 <tbody>
@@ -66,29 +66,17 @@
                                     <?php $n++;?>
                                     <tr align="">
                                         <td><?php echo $n?></td>
-                                        <td>{{ $row->transaction_code}}</td>
-                                        <td>{{ucwords(@$row->pledgerDetails->firstname ." ".$row->pledgerDetails->lastname)}}</td>
 
-                                        <td>{{ ucwords( Carbon\Carbon::parse($row->created_at)->format("jS F, Y"))}}</td>
-                                        <td>GHS{{ $row->pledged_amount}}</td>
-                                        <td>{{ucwords( Carbon\Carbon::parse($row->maturity_date)->format("jS F, Y")) }}</td>
+                                        <td>{{ucwords(@$row->firstname ." ".$row->lastname)}}</td>
+                                        <td>{{ucwords(@$row->gender)}}</td>
+                                        <td>{{ @$row->phone }}</td>
+                                        <td>{{ucwords(@$row->email)}}</td>
+                                        <td>{{ucwords(@$row->address)}}</td>
+                                        <td>{{ucwords(@$row->mobile_money_name)}}</td>
+                                        <td>{{ucwords(@$row->mobile_money_phone)}}</td>
+                                        <td>{{ucwords( Carbon\Carbon::parse($row->created_at)->format("jS F, Y"))}}</td>
 
-                                        <td>GHS{{ round((($row->pledged_amount*2)),2) }}</td>
 
-                                        @if(($row->pledge_receiver_id==Auth::user()->id)&& $row->payment_confirm=="Unconfirmed")
-                                            <td class="warning ui message green"> Confirm</td>
-
-                                        @else
-                                            <td <?php if($row->payment_confirm == "Unconfirmed"){?> class="warning" <?php }?>>
-                                                <i class="attention icon"></i>{{ $row->payment_confirm}}</td>
-
-                                        @endif
-                                        {{--<td>--}}
-                                        {{--{!!Form::open(['action' =>['PledgeController@destroy', 'id'=>$row->id], 'method' => 'DELETE','name'=>'c' ,'style' => 'display: inline;'])  !!}--}}
-
-                                        {{--<button type="submit" onclick="return confirm('Are you sure you want to delete this record?')" class="uk-btn" ><i  class="sidebar-menu-icon material-icons md-18"></i>X</button>--}}
-
-                                        {{--{!! Form::close() !!}</td>--}}
                                     </tr>
 
                                 @endforeach

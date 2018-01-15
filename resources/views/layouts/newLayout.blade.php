@@ -107,8 +107,9 @@
         @if(Auth::user()->confirmed==1 && Auth::user()->role=='admin')
         <li><a href="{{ url('/home') }}"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
         
-         <li class="active"><a href="{{url('/client/pledges')}}"><em class="fa fa-database">&nbsp;</em> View Transactions</a></li>
-      
+         <li><a href="{{url('/client/all')}}"><em class="fa fa-user">&nbsp;</em> View Clients</a></li>
+         <li><a href="{{url('/client/pledges')}}"><em class="fa fa-database">&nbsp;</em> View Transactions</a></li>
+
         <li><a href="{{url('/client/matches')}}"><em class="fa fa-tasks">&nbsp;</em>My own Matches</a></li>
         <li><a href="{{url('/client/match')}}"><em class="fa fa-tasks">&nbsp;</em>View Matches</a></li>
            <li><a href="{{url('/client/match/new')}}"><em class="fa fa-tasks">&nbsp;</em>Match Clients</a></li>

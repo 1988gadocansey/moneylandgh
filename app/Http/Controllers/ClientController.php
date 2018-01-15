@@ -16,7 +16,12 @@ class ClientController  extends Controller
 
 
     }
+    public function index(Request $request){
+        $data=Models\ClientModel::all();
+        return view('client.index')->with('data', $data)
+            ;
 
+    }
     public function showProfileForm(Request $request, SystemController $sys)
     {
 

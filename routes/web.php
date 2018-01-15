@@ -32,6 +32,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/home', 'HomeController@index');
 
     Route::get('/profile/form', 'ClientController@showProfileForm');
+    Route::get('client/all', 'ClientController@index');
 
     Route::post('profile_send', 'ClientController@profileUpdate');
 
