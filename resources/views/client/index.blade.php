@@ -58,6 +58,7 @@
                                 <th>Mobile Money Account Name</th>
                                 <th>Mobile Money Phone No.</th>
                                 <th>Date Joined</th>
+                                <td>Action</td>
 
                                 </thead>
                                 <tbody>
@@ -75,8 +76,16 @@
                                         <td>{{ucwords(@$row->mobile_money_name)}}</td>
                                         <td>{{ucwords(@$row->mobile_money_phone)}}</td>
                                         <td>{{ucwords( Carbon\Carbon::parse($row->created_at)->format("jS F, Y"))}}</td>
+                                        <td>
 
+                                            <div class="pull-left action-buttons">
+                                                {!!Form::open(['action' =>['ClientController@destroy', 'id'=>$row->id], 'method' => 'DELETE','name'=>'c' ,'style' => 'display: inline;'])  !!}
 
+                                                <button type="submit" onclick="return confirm('Are you sure you want to delete this client. it will delete his user account as well?')" class="btn btn-sm btn-danger" ><em class="fa fa-trash"></em></button>
+
+                                                {!! Form::close() !!}
+                                            </div>
+                                        </td>
                                     </tr>
 
                                 @endforeach

@@ -98,5 +98,10 @@ class ClientController  extends Controller
         }
     }
 
+    public function destroy(Request $request)
+    {
+        Models\ClientModel::where("id", $request->id)->delete();
+        return redirect("/client/all")->with("success", "client deleted successfully");
 
+    }
 }

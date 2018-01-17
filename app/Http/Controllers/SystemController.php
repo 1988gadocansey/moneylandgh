@@ -438,7 +438,10 @@ class SystemController extends Controller
         return @$student[0]->NAME;
 
     }
-
+    public function  getPledgerDetails($id){
+        $data=Models\ClientModel::where("id",$id)->get();
+        return $data;
+    }
     public function getCourseCodeByID($id)
     {
 

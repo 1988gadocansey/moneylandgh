@@ -54,23 +54,13 @@
                           <select  name="maker" class='form-control' id="maker" required=""  v-model="maker" v-form-ctrl="" v-select="maker">
                             <option value=""  >--Select Pledge Marker--</option>
                             @foreach($pledge as $row)
-                                <option value="{{$row->id}}">{{$row->pledgerDetails->firstname.' '.$row->pledgerDetails->lastname.' - '.$row->pledgerDetails->phone.' - GHS'.$row->pledged_amount.' - Date pledged '.Carbon\Carbon::parse($row->created_at)->format("jS F, Y") }}</option>
+                                <option value="{{@$row->id}}">{{@$row->pledgerDetails->firstname.' '.@$row->pledgerDetails->lastname.' - '.@$row->pledgerDetails->phone.' - GHS'.@$row->pledged_amount.' - Date pledged '.Carbon\Carbon::parse(@$row->created_at)->format("jS F, Y") }}</option>
                             @endforeach
 
                         </select>
-                        
+
                     </div>
-                    <!-- <div class="form-group">
-                        <label>Match to Client</label>
-                        <select  name="receiver" class='form-control' required=""  v-model="receiver" v-form-ctrl="" v-select="reciever">
-                            <option value=""  >--Select client to match--</option>
-                            @foreach($client as $row)
-                                <option value="{{$row->id}}">{{$row->firstname}}</option>
-                            @endforeach
 
-                        </select>
-
-                    </div> -->
                      
 
                       <div class="form-group">
@@ -83,6 +73,13 @@
 
                         </select>
                         
+                    </div>
+
+                    <div class="form-group">
+                        <label>Amount</label>
+                        <input type="text" name="amount" class="form-control" id="amount"  required=""
+                               placeholder="Amount"  v-model="fname" v-form-ctrl="">
+
                     </div>
  
 

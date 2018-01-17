@@ -99,7 +99,7 @@ class HomeController extends Controller
             $info = 1;
 
             $totalPledge=count($data);
-            $totalMatches=Models\MatchModel::where("confirmed",1)->with('recieverDetails')->count();
+            $totalMatches=@Models\MatchModel::where("client",@\Auth::user()->id)->where("confirmed",0)->count();
             return view('dashboard')->with("rows", $data)->with("info", $info)
                 ->with("pledgeTotal", $totalPledge)
                 ->with("totalMatches", $totalMatches)

@@ -66,21 +66,21 @@
                                     <?php $n++;?>
                                     <tr align="">
                                         <td><?php echo $n?></td>
-                                        <td>{{ $row->transaction_code}}</td>
-                                        <td>{{ucwords(@$row->pledgerDetails->firstname ." ".$row->pledgerDetails->lastname)}}</td>
+                                        <td>{{ @$row->transaction_code}}</td>
+                                        <td>{{ucwords(@$row->pledgerDetails->firstname ." ".@$row->pledgerDetails->lastname)}}</td>
 
-                                        <td>{{ ucwords( Carbon\Carbon::parse($row->created_at)->format("jS F, Y"))}}</td>
+                                        <td>{{ ucwords( Carbon\Carbon::parse(@$row->created_at)->format("jS F, Y"))}}</td>
                                         <td>GHS{{ $row->pledged_amount}}</td>
-                                        <td>{{ucwords( Carbon\Carbon::parse($row->maturity_date)->format("jS F, Y")) }}</td>
+                                        <td>{{ucwords( Carbon\Carbon::parse(@$row->maturity_date)->format("jS F, Y")) }}</td>
 
-                                        <td>GHS{{ round((($row->pledged_amount*2)),2) }}</td>
+                                        <td>GHS{{ round(((@$row->pledged_amount*2)),2) }}</td>
 
-                                        @if(($row->pledge_receiver_id==Auth::user()->id)&& $row->payment_confirm=="Unconfirmed")
+                                        @if((@$row->pledge_receiver_id==Auth::user()->id)&& @$row->payment_confirm=="Unconfirmed")
                                             <td class="warning ui message green"> Confirm</td>
 
                                         @else
-                                            <td <?php if($row->payment_confirm == "Unconfirmed"){?> class="warning" <?php }?>>
-                                                <i class="attention icon"></i>{{ $row->payment_confirm}}</td>
+                                            <td <?php if(@$row->payment_confirm == "Unconfirmed"){?> class="warning" <?php }?>>
+                                                <i class="attention icon"></i>{{ @$row->payment_confirm}}</td>
 
                                         @endif
                                         {{--<td>--}}

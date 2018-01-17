@@ -4,6 +4,7 @@
 @section('style')
 
 @endsection
+@inject('sys', 'App\Http\Controllers\SystemController')
 @section('content')
     <div class="md-card-content">
         @if(Session::has('success'))
@@ -26,38 +27,25 @@
                 <div class="panel-heading">Matches</div>
                 <div class="panel-body">
                     <div class="col-md-6">
-        @if( count($data)>0)
+        @if( count($data)>0 || count($payee)>0)
+
             @foreach($data as $row)
-                @if($row->type=="receive" && $row->confirmed=="0")
+                @if($row->type=="receive" && $row->confirmed=="0" &&  $row->client==Auth::user()->id)
                     <p>Receive this payment</p>
                 <div style=" " class="alert bg-info" role="alert">
 
 
-                     <p>Bank Name:  {{$row->mobile_account_type}}</p>
-                     <p>Mobile Money name:  {{$row->receiver_name}}</p>
-                     <p>Mobile Money Number:  {{$row->mobile_money_no}}</p>
+                      <p>Mobile Money name:  {{$row->recieverDetails->mobile_money_name}}</p>
+                     <p>Mobile Money Number:  {{$row->recieverDetails->mobile_money_phone}}</p>
                      <p>Amount to recieve:  GHS{{$row->amount}}</p>
                     @if($row->confirmed==0)
                     <p><a href='{{url("/match/confirm/$row->id/id")}}'onclick="return confirm('Yes or no')" class="ui button green">Click to confirm payment</a> </p>
                     @endif
                 </div>
                 <hr>
-                @endif
-
-                 {{--@else
-                    <p>Payment details</p>
-                    <div style=" " class="ui red  message">
 
 
-                        <p>Bank Name:  {{$row->mobile_account_type}}</p>
-                        <p>Mobile Money name:  {{$row->receiver_name}}</p>
-                        <p>Mobile Money Number:  {{$row->mobile_money_no}}</p>
-                        <p>Amount to pay:  GHS{{$row->amount}}</p>
-                        <p>Deadline is 12:12:1</p>
-                    </div>
-
-
-               @endif--}}
+               @endif
                 &nbsp;
             @endforeach
 
@@ -67,6 +55,33 @@
                 <p class="ui message warning">No matches</p>
 
         @endif
+
+            @if(  count($payee)>0)
+
+
+                @foreach($payee as $rows)
+
+                    @foreach($sys->getPledgerDetails($rows->pledge_maker_id) as $col)
+
+                        <p>You are to pay this client</p>
+                        <div style=" " class="alert bg-info" role="alert">
+
+
+                            <p>Mobile Money name:  {{$col->firstname}}</p>
+                            <p>Mobile Money Number:  {{$col->phone}}</p>
+                            <p>Amount to pay:  GHS{{$rows->amount}}</p>
+
+                        </div>
+                        <hr>
+                        @endforeach
+
+
+
+
+
+                @endforeach
+                @endif
+
                     </div>
                 </div>
             </div>

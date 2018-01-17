@@ -25,10 +25,20 @@ class MatchController extends Controller
     {
         $client2 = @Models\ClientModel::where("user_id", @\Auth::user()->id)->first();
         $client = @Models\PledgeModel::where("pledge_maker_id", $client2->id)->first();
-        $data = @Models\MatchModel::where("client", $client->pledge_maker_id)->where("pledge",$client->id)->get();
+
+        $data = @Models\MatchModel::where("client", @\Auth::user()->id)->orWhere("pledge",$client->id)
+            ->where("confirmed","0")->get();
+
+        $payee=  \DB::table('pledges')
+            ->join('matches', function ($join) {
+                $join->on('pledges.id', '=', 'matches.pledge');
+            })
+            ->where('matches.confirmed', 0)
+            ->get();
+
         // dd($data);
         return view("matches.index")
-            ->with("data", $data);
+            ->with("data", $data)->with("payee", $payee);
     }
 
     public function confirmMatch($id,Request $request, SystemController $sys)
@@ -100,13 +110,14 @@ class MatchController extends Controller
     public function showMatchForm(Request $request){
         $client = @Models\ClientModel::select('id','firstname','lastname','phone')->get();
         $pledge = @Models\PledgeModel::where("payment_confirm","Unconfirmed")
-        ->where("matched",0)->get();
+        ->where("matched",0)->with("pledgerDetails")->get();
         // dd($data);
         return view("task.create")->with("pledge", $pledge)
             ->with("client", $client);
     }
     public function storeMatches(Request $request){
         $pledger=$request->maker;
+        $amount=$request->amount;
          $receiver=$request->receiver;
 
          
@@ -120,7 +131,7 @@ class MatchController extends Controller
           $receiverDetails=Models\ClientModel::where("id",$receiver)->first();
 
           
-          $amount=$pledgeDetails->pledged_amount;
+
            $receiverName=$receiverDetails->mobile_money_name;
            $receiverPhone=$receiverDetails->mobile_money_phone;
          

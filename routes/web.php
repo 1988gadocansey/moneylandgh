@@ -54,6 +54,9 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::get('match_sms', 'MatchController@firesms');
 
+    Route::delete('/client_delete', 'ClientController@destroy');
+
+
 //
 
 });

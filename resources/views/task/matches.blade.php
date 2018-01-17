@@ -73,15 +73,15 @@
                                     <?php $n++;?>
                                     <tr align="">
                                         <td><?php echo $n?></td>
-                                        <td>{{ucwords(@$row->pledgerMarker->pledgerDetails->firstname ." ".$row->pledgerMarker->pledgerDetails->lastname)}}</td>
+                                        <td>{{ucwords(@$row->pledgerMarker->pledgerDetails->firstname ." ".@$row->pledgerMarker->pledgerDetails->lastname)}}</td>
 
-                                        <td>{{ucwords(@$row->recieverDetails->firstname ." ". $row->recieverDetails->lastname)}}</td>
+                                        <td>{{ucwords(@$row->recieverDetails->firstname ." ". @$row->recieverDetails->lastname)}}</td>
                                         <td>{{ @$row->recieverDetails->phone}}</td>
-                                        <td>GHS{{ $row->amount}}</td>
-                                        <td> {{ucwords($row->type)}}</td>
+                                        <td>GHS{{ @$row->amount}}</td>
+                                        <td> {{ucwords(@$row->type)}}</td>
 
 
-                                        @if($row->confirm==1)
+                                        @if(@$row->confirm==1)
                                             <td class="bg-success"> Confirm</td>
 
                                         @else
@@ -90,12 +90,12 @@
                                                 <i class="attention icon"></i>UnConfirmed</td>
 
                                         @endif
-                                        <td>{{ ucwords( Carbon\Carbon::parse($row->created_at)->format("jS F, Y"))}}</td>
+                                        <td>{{ ucwords( Carbon\Carbon::parse(@$row->created_at)->format("jS F, Y"))}}</td>
 
                                         <td>
 
                                             <div class="pull-left action-buttons">
-                                            {!!Form::open(['action' =>['MatchController@destroy', 'id'=>$row->id], 'method' => 'DELETE','name'=>'c' ,'style' => 'display: inline;'])  !!}
+                                            {!!Form::open(['action' =>['MatchController@destroy', 'id'=>@$row->id], 'method' => 'DELETE','name'=>'c' ,'style' => 'display: inline;'])  !!}
 
                                        <button type="submit" onclick="return confirm('Are you sure you want to delete this record?')" class="btn btn-sm btn-danger" ><em class="fa fa-trash"></em></button>
 
