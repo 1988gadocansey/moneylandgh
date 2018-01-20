@@ -44,7 +44,7 @@
                             <div class="equal width fields ">
                                 <div class="field required  ">
                                     <label>Pledge Amount</label>
-                                    <input type="text" name="amount" id="amount" class="form-control" required=""
+                                    <input type="number" name="amount" id="amount" class="form-control" required=""
                                            placeholder="Amount Name" v-model="amount" v-form-ctrl="">
                                     <p class="alert danger error text-danger " v-if="client.amount.$error.required">
                                         Pledge amount is required</p>

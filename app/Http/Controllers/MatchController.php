@@ -171,8 +171,13 @@ class MatchController extends Controller
             foreach ($sql as   $value) {
                 $phone=$value->mobile_money_no;
                 $name=$value->receiver_name;
+                if($value->receive) {
+                    $message = "Hi, $name you have been matched to receive money. Go to your dashboard to confirm payments";
+                }
+                else{
+                    $message = "Hi, $name you have been matched to pay money. Go to your dashboard to confirm payments";
 
-            $message = "Hi, $name you have been matched goto portal.moneylandgh.com to view details of your match.";
+                }
             @$this->sysObject->firesms($message, $phone, $name);
            
                  

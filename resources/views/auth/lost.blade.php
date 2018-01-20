@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="CoreUI Bootstrap 4 Admin Template">
-    <meta name="author" content="Lukasz Holeczek">
-    <meta name="keyword" content="CoreUI Bootstrap 4 Admin Template">
+    <meta name="author" content="Money Land">
+    <meta name="keyword" content="Money Land">
     <!-- <link rel="shortcut icon" href="assets/ico/favicon.png"> -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -45,42 +45,27 @@
                             </div>
                         @endif
                         <h3>MoneyLandGH</h3>
-                        <p class="text-muted">Sign In to your account</p>
-                        <form class="login-form"  method="POST"  action="{{ url('/login') }}">
+                        <p class="text-muted">Password Recovery</p>
+                        <form class="login-form"  method="POST"  action="{{ url('send') }}">
                             {!! csrf_field() !!}
-                        <div class="input-group mb-3">
-                            <span class="input-group-addon"><i class="icon-user"></i></span>
-                            <input type="email" class="form-control" name="email" placeholder="Email" required>
-                        </div>
-                        <div class="input-group mb-4">
-                            <span class="input-group-addon"><i class="icon-lock"></i></span>
-                            <input type="password" name="password" class="form-control" placeholder="Password" required>
-                        </div>
-                        <div class="row">
-                            <div class="input-group mb-2 mr-sm-2" style="margin-left: 15px">
-                                <button type="submit" class="btn btn-primary px-4">Login</button> &nbsp;
-                                <a href="{{url('/register')}}" class="btn btn-primary px-4 ">Register to join!</a>
+                            <div class="input-group mb-3">
+                                <span class="input-group-addon"><i class="icon-phone"></i></span>
+                                <input type="text" class="form-control" name="phone" placeholder="Your phone number used to register" required>
+                            </div>
+
+                            <div class="row">
+                                <div class="input-group mb-2 mr-sm-2" style="margin-left: 15px">
+                                    <button type="submit" class="btn btn-primary px-4">Recover</button> &nbsp;
+
+                                </div>
 
                             </div>
-                            <p style="margin-left: 15px" class=""><a href="{{url('password/send')}}">  Forgotton Password??</a></p>
-
-                        </div>
                         </form>
                     </div>
                 </div>
-                <div class="card text-white bg-primary py-5 d-md-down-none" style="width:44%">
-                    <div class="card-body text-center">
-                        <div style="text-align: justify;">
-                            <h2>About</h2>
-                            <p> Login into the portal to view profile</p>
-                            <p> Login into the portal to confirm payment</p>
-                            <p> Login into the portal to view upcoming matches</p>
-                            <a href="{{url('/register')}}" class="btn btn-primary active mt-3">Register to join!</a>
-                        </div>
-                    </div>
-                </div>
+
             </div>
-              </div>
+        </div>
 
     </div>
 </div>

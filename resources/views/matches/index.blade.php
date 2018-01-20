@@ -33,7 +33,7 @@
 
                                 @if($row->type=="receive" && $row->confirmed=="0" &&  $row->client==Auth::user()->id)
                                     <p>Receive payment from </p>
-                                    <div style=" " class="alert bg-info" role="alert">
+                                    <div style="color:white;font-weight: bold" class="alert bg-success" role="alert">
 
 
                                         <p>Mobile Money
@@ -42,9 +42,13 @@
                                             Number: {{ $row->pledgerMarker->pledgerDetails->mobile_money_phone}}</p>
                                         <p>Amount to recieve: GHS{{$row->pledgerMarker->pledged_amount}}</p>
                                         @if($row->confirmed==0)
-                                            <p><a href='{{url("/match/confirm/$row->id/id")}}'
-                                                  onclick="return confirm('Yes or no')" class="ui button green">Click to
-                                                    confirm payment</a></p>
+                                            <p>
+
+                                            <button class="btn btn-primary"><a href='{{url("/match/confirm/$row->id/id")}}'
+                                                                               onclick="return confirm('Yes or no')" >Click to
+                                                    confirm payment</a></button>
+
+                                            </p>
                                         @endif
                                     </div>
                                     <hr>
@@ -57,7 +61,7 @@
                         @else
 
 
-                            <p class="ui message warning">No payment to receive</p>
+                            <p class="alert alert-info">No payment to receive</p>
 
                         @endif
 
@@ -65,7 +69,7 @@
                                 @foreach($payee as $col)
 
                                         <p>You are to pay this client </p>
-                                        <div style=" " class="alert bg-success" role="alert">
+                                        <div style="font-weight: bold " class="alert bg-info" role="alert">
 
 
                                             <p>Mobile Money name: {{$col->receiver_name}}</p>
@@ -80,7 +84,7 @@
 
 
                             @else
-                                <p>No client to pay </p>
+                                <p class="alert alert-info">No client to pay </p>
                             @endif
 
                     </div>
