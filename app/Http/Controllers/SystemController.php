@@ -438,6 +438,30 @@ class SystemController extends Controller
         return @$student[0]->NAME;
 
     }
+    public function getReceiverDetails($id)
+    {
+
+        $payee=  \DB::table('clients')
+
+            ->where('id',  $id)
+
+            ->get();
+        return $payee;
+
+    }
+    public function getPledgerNumber($id)
+    {
+
+        $payee=  \DB::table('pledges')
+            ->join('clients', function ($join) {
+                $join->on('pledges.pledge_maker_id', '=', 'client.id');
+            })
+            ->where('pledges.id',  $id)
+
+            ->first();
+        return $payee->mobile_money_phone;
+
+    }
     public function  getPledgerDetails($id){
         $data=Models\ClientModel::where("id",$id)->get();
         return $data;

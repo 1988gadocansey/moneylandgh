@@ -17,7 +17,7 @@ class MatchModel extends Model
     protected $guarded = ['id'];
     protected $primaryKey="id";
     public function recieverDetails(){
-        return $this->belongsTo('App\Models\ClientModel', "client","id");
+        return $this->belongsTo('App\Models\ClientModel', "client","user_id");
     }
     public function pledgerMarker(){
         return $this->belongsTo('App\Models\PledgeModel', "pledge","id");

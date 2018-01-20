@@ -27,60 +27,61 @@
                 <div class="panel-heading">Matches</div>
                 <div class="panel-body">
                     <div class="col-md-6">
-        @if( count($data)>0 || count($payee)>0)
+                        @if( count($data)>0 )
 
-            @foreach($data as $row)
-                @if($row->type=="receive" && $row->confirmed=="0" &&  $row->client==Auth::user()->id)
-                    <p>Receive this payment</p>
-                <div style=" " class="alert bg-info" role="alert">
+                            @foreach($data as $row)
 
-
-                      <p>Mobile Money name:  {{$row->recieverDetails->mobile_money_name}}</p>
-                     <p>Mobile Money Number:  {{$row->recieverDetails->mobile_money_phone}}</p>
-                     <p>Amount to recieve:  GHS{{$row->amount}}</p>
-                    @if($row->confirmed==0)
-                    <p><a href='{{url("/match/confirm/$row->id/id")}}'onclick="return confirm('Yes or no')" class="ui button green">Click to confirm payment</a> </p>
-                    @endif
-                </div>
-                <hr>
+                                @if($row->type=="receive" && $row->confirmed=="0" &&  $row->client==Auth::user()->id)
+                                    <p>Receive payment from </p>
+                                    <div style=" " class="alert bg-info" role="alert">
 
 
-               @endif
-                &nbsp;
-            @endforeach
+                                        <p>Mobile Money
+                                            name: {{$row->pledgerMarker->pledgerDetails->mobile_money_name}}</p>
+                                        <p>Mobile Money
+                                            Number: {{ $row->pledgerMarker->pledgerDetails->mobile_money_phone}}</p>
+                                        <p>Amount to recieve: GHS{{$row->pledgerMarker->pledged_amount}}</p>
+                                        @if($row->confirmed==0)
+                                            <p><a href='{{url("/match/confirm/$row->id/id")}}'
+                                                  onclick="return confirm('Yes or no')" class="ui button green">Click to
+                                                    confirm payment</a></p>
+                                        @endif
+                                    </div>
+                                    <hr>
 
-        @else
-
-
-                <p class="ui message warning">No matches</p>
-
-        @endif
-
-            @if(  count($payee)>0)
-
-
-                @foreach($payee as $rows)
-
-                    @foreach($sys->getPledgerDetails($rows->pledge_maker_id) as $col)
-
-                        <p>You are to pay this client</p>
-                        <div style=" " class="alert bg-info" role="alert">
+                                @endif
 
 
-                            <p>Mobile Money name:  {{$col->firstname}}</p>
-                            <p>Mobile Money Number:  {{$col->phone}}</p>
-                            <p>Amount to pay:  GHS{{$rows->amount}}</p>
+                            @endforeach
 
-                        </div>
-                        <hr>
-                        @endforeach
+                        @else
 
 
+                            <p class="ui message warning">No payment to receive</p>
+
+                        @endif
+
+                         @if(count($payee)>0)
+                                @foreach($payee as $col)
+
+                                        <p>You are to pay this client </p>
+                                        <div style=" " class="alert bg-success" role="alert">
 
 
+                                            <p>Mobile Money name: {{$col->receiver_name}}</p>
+                                            <p>Mobile Money Number: {{$col->mobile_money_no}}</p>
+                                            <p>Amount to pay: GHS{{$col->amount}}</p>
 
-                @endforeach
-                @endif
+
+                                        </div>
+
+
+                                @endforeach
+
+
+                            @else
+                                <p>No client to pay </p>
+                            @endif
 
                     </div>
                 </div>

@@ -26,13 +26,14 @@ class MatchController extends Controller
         $client2 = @Models\ClientModel::where("user_id", @\Auth::user()->id)->first();
         $client = @Models\PledgeModel::where("pledge_maker_id", $client2->id)->first();
 
-        $data = @Models\MatchModel::where("client", @\Auth::user()->id)->orWhere("pledge",$client->id)
+        $data = @Models\MatchModel::where("client", @\Auth::user()->id)
             ->where("confirmed","0")->get();
 
         $payee=  \DB::table('pledges')
             ->join('matches', function ($join) {
                 $join->on('pledges.id', '=', 'matches.pledge');
             })
+            ->where('pledges.pledge_maker_id',  $client2->id)
             ->where('matches.confirmed', 0)
             ->get();
 
@@ -102,20 +103,20 @@ class MatchController extends Controller
     public function  showMatches(){
         //$client2 = @Models\ClientModel::where("user_id", @\Auth::user()->id)->first();
        // $client = @Models\PledgeModel::where("pledge_maker_id", $client2->id)->first();
-        $data = @Models\MatchModel::paginate(5);
+        $data = @Models\MatchModel::orderBy("id","desc")->paginate(100);
         // dd($data);
         return view("task.matches")
             ->with("data", $data);
     }
     public function showMatchForm(Request $request){
-        $client = @Models\ClientModel::select('id','firstname','lastname','phone')->get();
+        $client = @Models\ClientModel::select('id','firstname','lastname','phone')->orderBy("id","desc")->get();
         $pledge = @Models\PledgeModel::where("payment_confirm","Unconfirmed")
-        ->where("matched",0)->with("pledgerDetails")->get();
+        ->where("matched",0)->with("pledgerDetails")->orderBy("id","desc")->get();
         // dd($data);
         return view("task.create")->with("pledge", $pledge)
             ->with("client", $client);
     }
-    public function storeMatches(Request $request){
+    public function storeMatches(Request $request, SystemController $sys){
         $pledger=$request->maker;
         $amount=$request->amount;
          $receiver=$request->receiver;
@@ -130,11 +131,13 @@ class MatchController extends Controller
 
           $receiverDetails=Models\ClientModel::where("id",$receiver)->first();
 
-          
+           // $data=$sys->getReceiverDetails($receiver);
 
            $receiverName=$receiverDetails->mobile_money_name;
+
            $receiverPhone=$receiverDetails->mobile_money_phone;
-         
+           $receiverID=$receiverDetails->user_id;
+
 
           $data = new Models\MatchModel();
 
@@ -142,7 +145,7 @@ class MatchController extends Controller
         $data->amount = $amount;
         $data->confirmed ="0";
          
-        $data->client = $receiverDetails->id;
+        $data->client =$receiverID;
         $data->receiver_name = $receiverName;
         $data->mobile_money_no =$receiverPhone;
         $data->type ="receive";
