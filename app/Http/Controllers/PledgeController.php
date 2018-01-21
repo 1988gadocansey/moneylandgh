@@ -20,16 +20,28 @@ class PledgeController extends Controller
 
     }
 
+    public function pending(Request $request, SystemController $sys)
+    {
+
+        $client = @Models\ClientModel::where("user_id", @\Auth::user()->id)->first();
+        $data = @Models\PledgeModel::where("pledge_maker_id", $client->id) ->get();
+       
+
+
+        // dd($data);
+        return view("task.newPledge")
+            ->with("data", $data);
+    }
     public function index(Request $request, SystemController $sys)
     {
         if(\Auth::user()->role=="user"){
-        $client = @Models\ClientModel::where("user_id", @\Auth::user()->id)->first();
-        $data = @Models\PledgeModel::where("pledge_maker_id", $client->id)->orWhere("pledge_receiver_id", $client->id)->get();
-       
+            $client = @Models\ClientModel::where("user_id", @\Auth::user()->id)->first();
+            $data = @Models\PledgeModel::where("pledge_maker_id", $client->id)->orWhere("pledge_receiver_id", $client->id)->get();
+
         }
         else{
-             $data = @Models\PledgeModel::get();
-       
+            $data = @Models\PledgeModel::get();
+
         }
 
         // dd($data);
@@ -89,7 +101,7 @@ class PledgeController extends Controller
     public function destroy(Request $request)
     {
         Models\PledgeModel::where("id", $request->id)->delete();
-        return redirect("/client/pledges")->with("success", "Record deleted successfully");
+        return redirect()->back()->with("success", "Record deleted successfully");
 
     }
 

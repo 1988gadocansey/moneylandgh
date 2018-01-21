@@ -227,6 +227,13 @@ class SystemController extends Controller
 
     }
 
+    public function pledgerCounter(){
+        $client = @Models\ClientModel::where("user_id", @\Auth::user()->id)->first();
+        $data = @Models\PledgeModel::where("pledge_maker_id", $client->id)->where("payment_confirm","Unconfirmed") ->count();
+        return $data;
+
+
+    }
     public function totalRegistered($sem, $year, $course, $level)
     {
         $query = Models\AcademicRecordsModel::where('sem', $sem)

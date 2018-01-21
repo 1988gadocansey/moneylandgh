@@ -46,7 +46,7 @@
                 <div class="panel-body">
                     <div class="col-md-12">
                         @if(count($data)>0)
-                            <table class="table table-info">
+                            <table class="table table-info table-responsive">
                                 <thead>
                                 <th>No</th>
                                 <th>Transaction Code</th>

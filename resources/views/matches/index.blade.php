@@ -45,7 +45,7 @@
                                             <p>
 
                                             <button class="btn btn-primary"><a href='{{url("/match/confirm/$row->id/id")}}'
-                                                                               onclick="return confirm('Yes or no')" >Click to
+                                                                               onclick="return confirm('Are you sure you want to confirm')" >Click to
                                                     confirm payment</a></button>
 
                                             </p>
@@ -68,7 +68,7 @@
                          @if(count($payee)>0)
                                 @foreach($payee as $col)
 
-                                        <p>You are to pay this client </p>
+                                        <p>You are to pay this participant </p>
                                         <div style="font-weight: bold " class="alert bg-info" role="alert">
 
 
@@ -84,7 +84,7 @@
 
 
                             @else
-                                <p class="alert alert-info">No client to pay </p>
+                                <p class="alert alert-info">No participants to pay </p>
                             @endif
 
                     </div>

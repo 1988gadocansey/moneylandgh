@@ -65,7 +65,7 @@
 
                             &nbsp;
                             <button v-show="client.$valid" id="save" class="btn btn-lg btn-success " type="button">
-                                Create
+                               Pledge
                             </button>
 
                         </form>

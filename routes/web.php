@@ -39,10 +39,12 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/client/pledge/new', 'PledgeController@showForm');
     Route::post('pledge_new', 'PledgeController@store');
     Route::get('/client/pledges', 'PledgeController@index');
+    Route::get('/pledges/pending', 'PledgeController@pending');
 
     Route::delete('/pledge_delete', 'PledgeController@destroy');
 
     Route::get('/client/matches', 'MatchController@index');
+    Route::get('/funds', 'MatchController@fund');
     Route::get('/client/match', 'MatchController@showMatches');
     Route::get('/client/match/new', 'MatchController@showMatchForm');
 

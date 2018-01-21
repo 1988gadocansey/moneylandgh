@@ -32,50 +32,14 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span></button>
-            <a class="navbar-brand" href="#"><span>MoneyLand</span> Ghana</a>
+            <a class="navbar-brand" href="#"><span>MoneyLand</span> Ghana</a>@inject('sys', 'App\Http\Controllers\SystemController')
             <ul class="nav navbar-top-links navbar-right">
-              {{--  <li class="dropdown"><a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                        <em class="fa fa-envelope"></em><span class="label label-danger">15</span>
+                <li class="dropdown"><a class="dropdown-toggle count-info" data-toggle="dropdown" href="{{url('/fund')}}">
+                        <em class="fa fa-envelope"></em><span class="label label-danger">{{$sys->pledgerCounter()}}</span>
                     </a>
-                    <ul class="dropdown-menu dropdown-messages">
-                        <li>
-                            <div class="dropdown-messages-box"><a href="{{ url('/home') }}" class="pull-left">
-                                    <img alt="image" class="img-circle" src="http://placehold.it/40/30a5ff/fff">
-                                </a>
-                                <div class="message-body"><small class="pull-right">Last login {{   Carbon\Carbon::parse(Auth::user()->last_sign_in)->diffForHumans() }}</small>
-                                     </div>
-                            </div>
-                        </li>
-                        <li class="divider"></li>
-                     {{--   <li>
-                            <div class="dropdown-messages-box"><a href="{{ url('/home') }}" class="pull-left">
-                                    <img alt="image" class="img-circle" src="//secure.gravatar.com/avatar/7c4ff521986b4ff8d29440beec01972d?size=100&d=mm&r=g">
-                                </a>
-                                <div class="message-body"><small class="pull-right">1 hour ago</small>
-                                    <a href="#">New message from <strong>Jane Doe</strong>.</a>
-                                    <br /><small class="text-muted">12:27 pm - 25/03/2015</small></div>
-                            </div>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <div class="all-button"><a href="#">
-                                    <em class="fa fa-inbox"></em> <strong>All Messages</strong>
-                                </a></div>
-                        </li>
-                    </ul>
-                </li>--}}
-                <li class="dropdown"><a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                        <em class="fa fa-bell"></em><span class="label label-info">5</span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-alerts">
-                        <li><a href="#">
-                                <div><em class="fa fa-envelope"></em> 1 New Message
-                                    <span class="pull-right text-muted small">3 mins ago</span></div>
-                            </a></li>
-                        <li class="divider"></li>
 
-                    </ul>
                 </li>
+
             </ul>
         </div>
     </div><!-- /.container-fluid -->
@@ -100,14 +64,15 @@
     <ul class="nav menu">
         @if(Auth::user()->confirmed==1 && Auth::user()->role=='user' )
         <li><a href="{{ url('/home') }}"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
-         <li><a href="{{url('/client/pledge/new')}}"><em class="fa fa-gift">&nbsp;</em> Provide Help</a></li>
-        <li class="active"><a href="{{url('/client/pledges')}}"><em class="fa fa-database">&nbsp;</em> Transactions</a></li>
-         <li><a href="{{url('/client/matches')}}"><em class="fa fa-tasks">&nbsp;</em>Matches</a></li>
+
+        <li class="active"><a href="{{url('/client/pledges')}}"><em class="fa fa-database">&nbsp;</em> All Transactions</a></li>
+
           @endif
         @if(Auth::user()->confirmed==1 && Auth::user()->role=='admin')
         <li><a href="{{ url('/home') }}"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
-        
-         <li><a href="{{url('/client/all')}}"><em class="fa fa-user">&nbsp;</em> View Clients</a></li>
+                <li><a href="{{url('/client/pledge/new')}}"><em class="fa fa-gift">&nbsp;</em> Provide Help</a></li>
+
+                <li><a href="{{url('/client/all')}}"><em class="fa fa-user">&nbsp;</em> View Clients</a></li>
          <li><a href="{{url('/client/pledges')}}"><em class="fa fa-database">&nbsp;</em> View Transactions</a></li>
 
         <li><a href="{{url('/client/matches')}}"><em class="fa fa-tasks">&nbsp;</em>My own Matches</a></li>

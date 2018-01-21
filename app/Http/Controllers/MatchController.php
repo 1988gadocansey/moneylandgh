@@ -20,6 +20,14 @@ class MatchController extends Controller
         $this->sysObject = $sys;
 
     }
+    public function fund(){
+         $client2 = @Models\ClientModel::where("user_id", @\Auth::user()->id)->first();
+          $client = @Models\PledgeModel::where("pledge_maker_id", $client2->id)->first();
+        $data = @Models\MatchModel:: where("pledge",$client->id)->where("confirmed",1)->orderBy("id","desc")->paginate(100);
+        // dd($data);
+        return view("task.fund")
+            ->with("data", $data);
+    }
 
     public function index(Request $request, SystemController $sys)
     {
@@ -118,7 +126,7 @@ class MatchController extends Controller
     }
     public function storeMatches(Request $request, SystemController $sys){
         $pledger=$request->maker;
-        $amount=$request->amount;
+        //$amount=$request->amount;
          $receiver=$request->receiver;
 
          
@@ -142,7 +150,7 @@ class MatchController extends Controller
           $data = new Models\MatchModel();
 
         $data->pledge = $pledger;
-        $data->amount = $amount;
+        $data->amount = $pledgeDetails->pledged_amount;
         $data->confirmed ="0";
          
         $data->client =$receiverID;
@@ -171,15 +179,21 @@ class MatchController extends Controller
             foreach ($sql as   $value) {
                 $phone=$value->mobile_money_no;
                 $name=$value->receiver_name;
-                if($value->receive) {
-                    $message = "Hi, $name you have been matched to receive money. Go to your dashboard to confirm payments";
-                }
-                else{
-                    $message = "Hi, $name you have been matched to pay money. Go to your dashboard to confirm payments";
 
-                }
-            @$this->sysObject->firesms($message, $phone, $name);
-           
+                    $message = "Hi, $name you have been matched to receive payment. Go to your dashboard for details";
+
+                    $messagePledger = "Hi, $name you have been matched to pay money.Go to your dashboard for details";
+
+
+
+                $data = @Models\PledgeModel::where("id", $value->pledge) ->first();
+
+                $plederPhone= $data->pledgerDetails->mobile_money_phone;
+                $plederName= $data->pledgerDetails->mobile_money_name;
+
+                @$this->sysObject->firesms($message, $phone, $name);
+                @$this->sysObject->firesms($messagePledger, $plederPhone,  $plederName);
+
                  
             }
                return redirect()->back()->with("success","sms sent to matchs successfully");

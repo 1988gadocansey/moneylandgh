@@ -81,8 +81,8 @@
                                         <td> {{ucwords(@$row->type)}}</td>
 
 
-                                        @if(@$row->confirm==1)
-                                            <td class="bg-success"> Confirm</td>
+                                        @if(@$row->confirmed==1)
+                                            <td class="bg-success"> Confirmed</td>
 
                                         @else
 

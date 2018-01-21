@@ -75,12 +75,12 @@
                         
                     </div>
 
-                    <div class="form-group">
+                   {{-- <div class="form-group">
                         <label>Amount</label>
                         <input type="text" name="amount" class="form-control" id="amount"  required=""
                                placeholder="Amount"  v-model="fname" v-form-ctrl="">
 
-                    </div>
+                    </div>--}}
  
 
 
