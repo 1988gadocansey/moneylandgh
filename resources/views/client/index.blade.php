@@ -91,6 +91,7 @@
                                 @endforeach
                                 </tbody>
                             </table>
+                            <div class="pagination">{{ $data->links() }}</div>
                         @else
                             <p class="ui message warning">No transactions to display</p>
                         @endif

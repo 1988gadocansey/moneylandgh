@@ -57,6 +57,7 @@
 
 
                             @endforeach
+                                <div class="pagination">{{ $data->links() }}</div>
 
                         @else
 
@@ -86,6 +87,7 @@
                             @else
                                 <p class="alert alert-info">No participants to pay </p>
                             @endif
+                            <div class="pagination">{{ $payee->links() }}</div>
 
                     </div>
                 </div>

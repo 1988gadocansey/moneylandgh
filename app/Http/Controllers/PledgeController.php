@@ -24,7 +24,7 @@ class PledgeController extends Controller
     {
 
         $client = @Models\ClientModel::where("user_id", @\Auth::user()->id)->first();
-        $data = @Models\PledgeModel::where("pledge_maker_id", $client->id) ->get();
+        $data = @Models\PledgeModel::where("pledge_maker_id", $client->id) ->paginate(50);
        
 
 
@@ -36,7 +36,7 @@ class PledgeController extends Controller
     {
         if(\Auth::user()->role=="user"){
             $client = @Models\ClientModel::where("user_id", @\Auth::user()->id)->first();
-            $data = @Models\PledgeModel::where("pledge_maker_id", $client->id)->orWhere("pledge_receiver_id", $client->id)->get();
+            $data = @Models\PledgeModel::where("pledge_maker_id", $client->id)->orWhere("pledge_receiver_id", $client->id)->paginate(50);
 
         }
         else{

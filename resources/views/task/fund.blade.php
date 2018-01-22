@@ -57,15 +57,18 @@
                         <p>Amount: GHS {{ @$row->amount}}</p>
                         <p>Expected Earnings: GHS {{ @$row->amount *2}}</p>
 
-                        <p>Maturity Date: {{ ucwords( Carbon\Carbon::parse(@$row->maturity_date)->format("jS F, Y"))}}</p>
 
 
+                        <?php     $start = new \Carbon\Carbon($row->created_at);
+                             $date = $start->addDays(10);
+                             ?>
+                             <p>Maturity Date: {{ ucwords( Carbon\Carbon::parse(@$date)->format("jS F, Y"))}}</p>
 
                          </div>
 
 
                     @endforeach
-
+                        <div class="pagination">{{ $data->links() }}</div>
                 @else
                 <p class="ui message warning">No incoming funds</p>
                 @endif

@@ -54,9 +54,10 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/match/confirm/{id}/id', 'MatchController@confirmMatch');
     Route::delete('/match_delete', 'MatchController@destroy');
 
-    Route::get('match_sms', 'MatchController@firesms');
+    Route::post('match_sms', 'MatchController@firesms');
 
     Route::delete('/client_delete', 'ClientController@destroy');
+    Route::get('/match_delete/{id}/id', 'MatchController@delete');
     Route::post('/send', 'LostPasswordController@sendNewPassword');
 
     Route::get('/password/send', function () {

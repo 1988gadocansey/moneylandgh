@@ -17,7 +17,7 @@ class ClientController  extends Controller
 
     }
     public function index(Request $request){
-        $data=Models\ClientModel::orderBy("id","desc")->paginate(200);
+        $data=Models\ClientModel::orderBy("id","desc")->paginate(50);
         return view('client.index')->with('data', $data)
             ;
 

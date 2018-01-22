@@ -23,7 +23,7 @@ class MatchController extends Controller
     public function fund(){
          $client2 = @Models\ClientModel::where("user_id", @\Auth::user()->id)->first();
           $client = @Models\PledgeModel::where("pledge_maker_id", $client2->id)->first();
-        $data = @Models\MatchModel:: where("pledge",$client->id)->where("confirmed",1)->orderBy("id","desc")->paginate(100);
+        $data = @Models\MatchModel:: where("pledge",$client->id)->where("confirmed",1)->orderBy("id","desc")->paginate(20);
         // dd($data);
         return view("task.fund")
             ->with("data", $data);
@@ -35,7 +35,7 @@ class MatchController extends Controller
         $client = @Models\PledgeModel::where("pledge_maker_id", $client2->id)->first();
 
         $data = @Models\MatchModel::where("client", @\Auth::user()->id)
-            ->where("confirmed","0")->get();
+            ->where("confirmed","0")->paginate(50);
 
         $payee=  \DB::table('pledges')
             ->join('matches', function ($join) {
@@ -43,7 +43,7 @@ class MatchController extends Controller
             })
             ->where('pledges.pledge_maker_id',  $client2->id)
             ->where('matches.confirmed', 0)
-            ->get();
+            ->paginate(50);
 
         // dd($data);
         return view("matches.index")
@@ -108,10 +108,16 @@ class MatchController extends Controller
         return redirect("client/match")->with("success", "Record deleted successfully");
 
     }
+    public function delete(Request $request)
+    {
+        Models\MatchModel::where("id", $request->id)->delete();
+        return redirect("client/match")->with("success", "Record deleted successfully");
+
+    }
     public function  showMatches(){
         //$client2 = @Models\ClientModel::where("user_id", @\Auth::user()->id)->first();
        // $client = @Models\PledgeModel::where("pledge_maker_id", $client2->id)->first();
-        $data = @Models\MatchModel::orderBy("id","desc")->paginate(100);
+        $data = @Models\MatchModel::orderBy("id","desc")->paginate(50);
         // dd($data);
         return view("task.matches")
             ->with("data", $data);
@@ -174,35 +180,41 @@ class MatchController extends Controller
 
     public function firesms(Request $request){
 
-        $sql=Models\MatchModel::where("confirmed",0)->get();
-        if(count($sql)>0){
-            foreach ($sql as   $value) {
-                $phone=$value->mobile_money_no;
-                $name=$value->receiver_name;
+        $id=$request->id;
+        if(count($id)>0) {
+
+            for($i=0;$i<count($id);$i++) {
+                $sql = Models\MatchModel::where("confirmed", 0)->where("sms", "no")->where("id", $id[$i])->get();
+
+                foreach ($sql as $value) {
+                    $phone = $value->mobile_money_no;
+                    $name = $value->receiver_name;
 
                     $message = "Hi, $name you have been matched to receive payment. Go to your dashboard for details";
 
-                    $messagePledger = "Hi, $name you have been matched to pay money.Go to your dashboard for details";
+
+                    $data = @Models\PledgeModel::where("id", $value->pledge)->first();
+
+                    $plederPhone = $data->pledgerDetails->mobile_money_phone;
+                    $plederName = $data->pledgerDetails->mobile_money_name;
+                    $messagePledger = "Hi, $plederName you have been matched to pay money.Go to your dashboard for details";
+
+                    //print_r($messagePledger);
+                    @$this->sysObject->firesms($message, $phone, $name);
+                    @$this->sysObject->firesms($messagePledger, $plederPhone, $plederName);
+
+                    Models\MatchModel::where("id", $id[$i])->update(array('sms'=>'yes'));
 
 
+                }
 
-                $data = @Models\PledgeModel::where("id", $value->pledge) ->first();
-
-                $plederPhone= $data->pledgerDetails->mobile_money_phone;
-                $plederName= $data->pledgerDetails->mobile_money_name;
-
-                @$this->sysObject->firesms($message, $phone, $name);
-                @$this->sysObject->firesms($messagePledger, $plederPhone,  $plederName);
-
-                 
             }
-               return redirect()->back()->with("success","sms sent to matchs successfully");
-     
-             
+            return redirect()->back()->with("success", "sms sent to matchs successfully");
         }
         else{
-            return redirect()->back()->with("error","No Unconfirmed match to send sms to");
+            return redirect()->back()->with("error", "select participants to send sms to");
         }
+
     }
 
 }

@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{{url('public/assets/css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{url('public/assets/css/datepicker3.css') }}">
     <link rel="stylesheet" href="{{url('public/assets/css/styles.css') }}">
+    <link rel="stylesheet" href="{!! url('public/assets/css/select2.min.css') !!}" media="all">
 
 @yield('style')
     <!--Custom Font-->
@@ -119,7 +120,7 @@
 <script src="{{url('public/assets/js/easypiechart.js')}}"></script>
 <script src="{{url('public/assets/js/easypiechart-data.js')}}"></script>
 
-
+<script src="{!! url('public/assets/js/select2.full.min.js') !!}"></script>
 <script src="{{   url('public/assets/js/vue.min.js') }}"> </script>
 
 <script src="{{   url('public/assets/js/vue-form.min.js')}}"> </script>

@@ -94,6 +94,7 @@
                                 @endforeach
                                 </tbody>
                             </table>
+                            <div class="pagination">{{ $payee->links() }}</div>
                         @else
                             <p class="ui message warning">No transactions to display</p>
                         @endif
