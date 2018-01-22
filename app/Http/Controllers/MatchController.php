@@ -117,7 +117,7 @@ class MatchController extends Controller
     public function  showMatches(){
         //$client2 = @Models\ClientModel::where("user_id", @\Auth::user()->id)->first();
        // $client = @Models\PledgeModel::where("pledge_maker_id", $client2->id)->first();
-        $data = @Models\MatchModel::orderBy("id","desc")->paginate(50);
+        $data = @Models\MatchModel::orderBy("id","desc")->paginate(1000);
         // dd($data);
         return view("task.matches")
             ->with("data", $data);

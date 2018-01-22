@@ -36,11 +36,11 @@ class PledgeController extends Controller
     {
         if(\Auth::user()->role=="user"){
             $client = @Models\ClientModel::where("user_id", @\Auth::user()->id)->first();
-            $data = @Models\PledgeModel::where("pledge_maker_id", $client->id)->orWhere("pledge_receiver_id", $client->id)->paginate(50);
+            $data = @Models\PledgeModel::where("pledge_maker_id", $client->id)->orWhere("pledge_receiver_id", $client->id)->paginate(1000);
 
         }
         else{
-            $data = @Models\PledgeModel::get();
+            $data = @Models\PledgeModel::paginate(1000);
 
         }
 

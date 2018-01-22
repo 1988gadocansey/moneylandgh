@@ -94,7 +94,7 @@
                                 @endforeach
                                 </tbody>
                             </table>
-                            <div class="pagination">{{ $payee->links() }}</div>
+                            {{--<div class="pagination">{{ $data->links() }}</div>--}}
                         @else
                             <p class="ui message warning">No transactions to display</p>
                         @endif
@@ -106,5 +106,9 @@
     </div>
 @endsection
 @section('js')
-    <script src="{{   url('public/assets/js/jquery.min.js')}}"></script>
+    <script>
+        $(document).ready(function() {
+            $('table').DataTable();
+        } );
+    </script>
 @endsection

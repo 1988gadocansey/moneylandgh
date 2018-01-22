@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="{{url('public/assets/css/styles.css') }}">
     <link rel="stylesheet" href="{!! url('public/assets/css/select2.min.css') !!}" media="all">
 
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" media="all">
+
 @yield('style')
     <!--Custom Font-->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -124,6 +126,8 @@
 <script src="{{   url('public/assets/js/vue.min.js') }}"> </script>
 
 <script src="{{   url('public/assets/js/vue-form.min.js')}}"> </script>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"> </script>
+<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"> </script>
 
 <script type="text/javascript">
     $.ajaxSetup({
