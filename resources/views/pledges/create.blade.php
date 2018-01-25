@@ -42,31 +42,33 @@
 
 
                             <div class="equal width fields ">
-                                <div class="field required  ">
+                              {{--  <div class="field required  ">
                                     <label>Pledge Amount</label>
                                     <input type="number" name="amount" id="amount" class="form-control" required=""
                                            placeholder="Amount Name" v-model="amount" v-form-ctrl="">
                                     <p class="alert danger error text-danger " v-if="client.amount.$error.required">
                                         Pledge amount is required</p>
 
-                                </div>
+                                </div>--}}
 
-                                {{-- <div class="field required ">
-                                     <label>Receiver</label>
-                                     <select id="lecturer" class="ui search dropdown"  required="" name="receiver"  >
-                                         @foreach($data  as $item)
-                                             <option value="{{$item->id}}">{{$item->firstname." $item->lastname " . "-"." $item->phone "}}</option>
-                                         @endforeach
+                                 <div class="field required ">
+                                     <label>Amount</label>
+
+                                     <select id="amount" class="form-control"  required="" name="amount"  >
+                                         <option value="">Select amount</option>
+                                         <option value="100">100</option>
+                                         <option value="50">50</option>
                                      </select>
-                                      <p class="ui error " v-if="client.receiver.$error.required" >Pledge receiver is required</p>
 
-                                 </div>--}}
-                            </div>
+                                 </div>
+                                <p></p>
+
 
                             &nbsp;
                             <button v-show="client.$valid" id="save" class="btn btn-lg btn-success " type="button">
                                Pledge
                             </button>
+                            </div>
 
                         </form>
                     </div>

@@ -8,6 +8,7 @@ use App\Models;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class PledgeController extends Controller
 {
@@ -24,7 +25,7 @@ class PledgeController extends Controller
     {
 
         $client = @Models\ClientModel::where("user_id", @\Auth::user()->id)->first();
-        $data = @Models\PledgeModel::where("pledge_maker_id", $client->id) ->paginate(50);
+        $data = @Models\PledgeModel::where("pledge_maker_id", $client->id)->where("payment_confirm","Unconfirmed") ->paginate(50);
        
 
 
@@ -36,11 +37,11 @@ class PledgeController extends Controller
     {
         if(\Auth::user()->role=="user"){
             $client = @Models\ClientModel::where("user_id", @\Auth::user()->id)->first();
-            $data = @Models\PledgeModel::where("pledge_maker_id", $client->id)->orWhere("pledge_receiver_id", $client->id)->paginate(1000);
+            $data = @Models\PledgeModel::where("pledge_maker_id", $client->id)->orWhere("pledge_receiver_id", $client->id)->orderBy("id","DESC")->paginate(1000);
 
         }
         else{
-            $data = @Models\PledgeModel::paginate(1000);
+            $data = @Models\PledgeModel::where("pledged_amount",">","0")->orderBy("id","DESC")->paginate(1000);
 
         }
 
@@ -53,10 +54,30 @@ class PledgeController extends Controller
     {
 
 
-        $data = $sys->getClients();
+        $client2 = @Models\ClientModel::where("user_id", @\Auth::user()->id)->first();
+      /*  $pledger = @Models\PledgeModel::where("pledge_maker_id", $client2->id)
+            ->where(\DB::raw('MONTH(created_at)'),'=',date('n'))
+            ->sum('pledged_amount'); */
+
+        $pledger = @Models\PledgeModel::where("pledge_maker_id", $client2->id)->where("payment_confirm","Unconfirmed")
+            ->whereBetween('created_at', [
+                Carbon::now()->startOfWeek(),
+                Carbon::now()->endOfWeek()
+            ])
+            ->sum('pledged_amount');
+        if($pledger>=250){
+            return redirect()->back()->with("error","You have exceeded your weekly pledge amount which is 250gh");
+        }
 
 
-        return view('pledges.create')->with('data', $data);
+        else {
+
+
+            $data = $sys->getClients();
+
+
+            return view('pledges.create')->with('data', $data);
+        }
 
     }
 

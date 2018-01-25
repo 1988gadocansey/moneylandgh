@@ -27,7 +27,21 @@
                 <h1 class="page-header">Dashboard</h1>
             </div>
         </div><!--/.row-->
+        <div class="md-card-content">
+            @if(Session::has('success'))
+                <div style="text-align: center" class="uk-alert alert-success" data-uk-alert="">
+                    {!! Session::get('success') !!}
+                </div>
+            @endif
 
+            @if(Session::has('error'))
+                <div style="text-align: center" class="uk-alert alert-danger" data-uk-alert="">
+                    {!! Session::get('error') !!}
+                </div>
+            @endif
+
+
+        </div>
         <div class="panel panel-container">
             <div class="row">
                 <div class="col-xs-6 col-md-3 col-lg-3 no-padding">

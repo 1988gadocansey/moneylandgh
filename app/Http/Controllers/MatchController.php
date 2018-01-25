@@ -22,7 +22,7 @@ class MatchController extends Controller
     }
     public function fund(){
          $client2 = @Models\ClientModel::where("user_id", @\Auth::user()->id)->first();
-          $client = @Models\PledgeModel::where("pledge_maker_id", $client2->id)->first();
+          $client = @Models\PledgeModel::where("pledge_maker_id", $client2->id)->where("payment_confirm","confirmed")->first();
         $data = @Models\MatchModel:: where("pledge",$client->id)->where("confirmed",1)->orderBy("id","desc")->paginate(20);
         // dd($data);
         return view("task.fund")
@@ -60,6 +60,14 @@ class MatchController extends Controller
          Models\MatchModel::where("id",$id)->update(array("confirmed"=>1));
 
 
+         /*
+          * sms to pledger
+          */
+         $pledgerData= Models\PledgeModel::where("id",$matchDetils->pledge)->first();
+         $name=$pledgerData->pledgerDetails->mobile_money_name;
+         $phone=$pledgerData->pledgerDetails->mobile_money_phone;
+         $message="Hi,$name you have been confirmed";
+        @$this->sysObject->firesms($message,$phone,$phone);
         return redirect()->back()->with("data", $data)->with('success', "Payment confirmed");
 
     }
